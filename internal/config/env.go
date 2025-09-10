@@ -17,6 +17,7 @@ type Config struct {
 	TestDatabaseName string
 	ApiHost          string
 	ApiPort          string
+	JWTSecret        string
 	TrustedProxies   []string
 }
 
@@ -35,6 +36,7 @@ func LoadConfig() (*Config, error) {
 		TestDatabaseName: os.Getenv("TEST_DATABASE_NAME"),
 		ApiHost:          os.Getenv("API_HOST"),
 		ApiPort:          os.Getenv("API_PORT"),
+		JWTSecret:        os.Getenv("JWT_SECRET"),
 	}
 
 	proxies := os.Getenv("TRUSTED_PROXIES")

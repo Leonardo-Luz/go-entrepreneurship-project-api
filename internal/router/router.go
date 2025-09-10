@@ -10,7 +10,10 @@ import (
 )
 
 func SetupRouter(database *gorm.DB, cfg *config.Config) (*gin.Engine, error) {
-	router := gin.Default()
+	router := gin.New()
+
+	router.Use(gin.Logger())
+	router.Use(gin.Recovery())
 
 	router.Use(config.CorsConfig())
 
@@ -27,7 +30,8 @@ func SetupRouter(database *gorm.DB, cfg *config.Config) (*gin.Engine, error) {
 
 	api := router.Group("/api/v1")
 	{
-		UserRouter(api.Group("/users"), database)
+		UserRouter(api.Group("/users"), database, cfg)
+		AuthRouter(api.Group("/auth"), database, cfg)
 		ProjectRouter(api.Group("/projects"), database)
 	}
 

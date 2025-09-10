@@ -9,6 +9,7 @@ import (
 type UserRepository interface {
 	GetAll() ([]model.User, error)
 	GetByID(id uuid.UUID) (*model.User, error)
+	GetByEmail(email string) (*model.User, error)
 	Create(model *model.User) error
 	Update(model *model.User) error
 	Delete(id uuid.UUID) error
@@ -36,6 +37,16 @@ func (repo *userRepository) GetByID(id uuid.UUID) (*model.User, error) {
 	var user *model.User
 
 	if err := repo.database.First(&user, id).Error; err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
+func (repo *userRepository) GetByEmail(email string) (*model.User, error) {
+	var user *model.User
+
+	if err := repo.database.Where("email = ?", email).First(&user).Error; err != nil {
 		return nil, err
 	}
 

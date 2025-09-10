@@ -2,19 +2,24 @@ package handler
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/leonardo-luz/project-builder-api/internal/auth"
+	"github.com/leonardo-luz/project-builder-api/internal/config"
 	"github.com/leonardo-luz/project-builder-api/internal/model"
 	"github.com/leonardo-luz/project-builder-api/internal/repository"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserHandler struct {
 	repository repository.UserRepository
+	cfg        *config.Config
 }
 
-func NewUserHandler(repository repository.UserRepository) *UserHandler {
-	return &UserHandler{repository}
+func NewUserHandler(repository repository.UserRepository, cfg *config.Config) *UserHandler {
+	return &UserHandler{repository, cfg}
 }
 
 func (handler *UserHandler) GetAllHandler(context *gin.Context) {
@@ -99,4 +104,65 @@ func (handler *UserHandler) DeleteHandler(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, gin.H{"message": "User deleted"})
+}
+
+func (handler *UserHandler) RegisterHandler(context *gin.Context) {
+	var input struct {
+		Name     string `json:"name"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+	if err := context.ShouldBindJSON(&input); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	user := model.User{
+		Name:     input.Name,
+		Email:    input.Email,
+		Password: input.Password,
+	}
+
+	if err := handler.repository.Create(&user); err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
+		return
+	}
+
+	context.JSON(http.StatusCreated, gin.H{"message": "User registered"})
+}
+
+func (handler *UserHandler) LoginHandler(context *gin.Context) {
+	var creds struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+	if err := context.ShouldBindJSON(&creds); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
+		return
+	}
+
+	user, err := handler.repository.GetByEmail(creds.Email)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+		return
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(creds.Password)); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+		return
+	}
+
+	token, err := auth.GenerateJWT(user, handler.cfg.JWTSecret)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		return
+	}
+
+	context.SetCookie("jwt", token, int((24 * time.Hour).Seconds()), "/", "", true, true)
+	context.JSON(http.StatusOK, gin.H{"message": "Logged in"})
+}
+
+func (handler *UserHandler) LogoutHandler(c *gin.Context) {
+	c.SetCookie("jwt", "", -1, "/", "", true, true)
+	c.JSON(http.StatusOK, gin.H{"message": "Logged out"})
 }
