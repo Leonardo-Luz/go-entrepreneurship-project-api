@@ -5,7 +5,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
-	"github.com/leonardo-luz/project-builder-api/internal/model"
+	"github.com/leonardo-luz/go-entrepreneurship-project-api/internal/model"
 )
 
 type Claims struct {

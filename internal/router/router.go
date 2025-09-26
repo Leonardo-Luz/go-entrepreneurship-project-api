@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
-	"github.com/leonardo-luz/project-builder-api/internal/config"
+	"github.com/leonardo-luz/go-entrepreneurship-project-api/internal/config"
 )
 
 func SetupRouter(database *gorm.DB, cfg *config.Config) (*gin.Engine, error) {

@@ -2,7 +2,7 @@ package repository
 
 import (
 	"github.com/google/uuid"
-	"github.com/leonardo-luz/project-builder-api/internal/model"
+	"github.com/leonardo-luz/go-entrepreneurship-project-api/internal/model"
 	"gorm.io/gorm"
 )
 

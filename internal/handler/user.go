@@ -6,10 +6,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/leonardo-luz/project-builder-api/internal/auth"
-	"github.com/leonardo-luz/project-builder-api/internal/config"
-	"github.com/leonardo-luz/project-builder-api/internal/model"
-	"github.com/leonardo-luz/project-builder-api/internal/repository"
+	"github.com/leonardo-luz/go-entrepreneurship-project-api/internal/auth"
+	"github.com/leonardo-luz/go-entrepreneurship-project-api/internal/config"
+	"github.com/leonardo-luz/go-entrepreneurship-project-api/internal/model"
+	"github.com/leonardo-luz/go-entrepreneurship-project-api/internal/repository"
 	"golang.org/x/crypto/bcrypt"
 )
 

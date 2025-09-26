@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/leonardo-luz/project-builder-api/internal/config"
-	"github.com/leonardo-luz/project-builder-api/internal/router"
+	"github.com/leonardo-luz/go-entrepreneurship-project-api/internal/config"
+	"github.com/leonardo-luz/go-entrepreneurship-project-api/internal/router"
 )
 
 func main() {

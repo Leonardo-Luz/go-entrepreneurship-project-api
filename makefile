@@ -1,8 +1,8 @@
 build:
-	@go build -o bin/project-builder-api ./cmd/project-builder-api/main.go
+	@go build -o bin/go-entrepreneurship-project-api ./cmd/go-entrepreneurship-project-api/main.go
 
 test:
 	@go test -v ./...
 
 run: build
-	@./bin/project-builder-api
+	@./bin/go-entrepreneurship-project-api

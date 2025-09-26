@@ -1,4 +1,4 @@
-module github.com/leonardo-luz/project-builder-api
+module github.com/leonardo-luz/go-entrepreneurship-project-api
 
 go 1.24.6
 

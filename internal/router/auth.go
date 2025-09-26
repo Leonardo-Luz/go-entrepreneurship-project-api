@@ -4,9 +4,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
-	"github.com/leonardo-luz/project-builder-api/internal/config"
-	"github.com/leonardo-luz/project-builder-api/internal/handler"
-	"github.com/leonardo-luz/project-builder-api/internal/repository"
+	"github.com/leonardo-luz/go-entrepreneurship-project-api/internal/config"
+	"github.com/leonardo-luz/go-entrepreneurship-project-api/internal/handler"
+	"github.com/leonardo-luz/go-entrepreneurship-project-api/internal/repository"
 )
 
 func AuthRouter(group *gin.RouterGroup, database *gorm.DB, cfg *config.Config) {

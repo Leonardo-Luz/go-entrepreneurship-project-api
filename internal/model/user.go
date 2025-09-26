@@ -8,11 +8,19 @@ import (
 	"gorm.io/gorm"
 )
 
+type Role string
+
+const (
+	RoleUser  Role = "USER"
+	RoleAdmin Role = "ADMIN"
+)
+
 type User struct {
 	ID        uuid.UUID `json:"id" gorm:"type:uuid;primaryKey"`
 	Name      string    `json:"name" gorm:"not null"`
 	Email     string    `json:"email" gorm:"not null;unique"`
 	Password  string    `json:"password" gorm:"not null"`
+	Role      Role      `json:"role" gorm:"type:user_role;not null"`
 	CreatedAt time.Time `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 
@@ -29,6 +37,9 @@ func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 			return err
 		}
 	}
+
+	u.Role = RoleUser
+
 	return u.hashPassword()
 }
 
