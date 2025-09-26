@@ -21,3 +21,11 @@ go.work.sum
 
 # env file
 .env
+
+# jmeter files
+report
+relatorio
+tmp
+temp
+*.jtl
+*.log

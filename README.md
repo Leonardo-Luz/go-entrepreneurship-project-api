@@ -38,3 +38,31 @@
   make run
 
 ```
+
+## Run Tests
+
+* Unitary Tests
+
+```sh
+
+  make test
+
+```
+
+* Stress Tests (JMeter)
+
+  * Run `cd jmeter`:
+
+  ```sh
+
+    jmeter -n -t <TEST-FILE> -l results.jtl -e -o ./report
+
+  ```
+
+  * Cleanup `cd jmeter`:
+
+  ```sh
+
+    rm -rf report *.jtl *.log
+
+  ```
